@@ -1,24 +1,41 @@
-# Prompt for a Single Task
-task = input("Enter your task: ")
-priority = input("Priority (high/medium/low): ").lower()
-time_bound = input("Is it time-bound? (yes/no): ").lower()
+# Get task with validation
+while True:
+    task = input("Enter your task: ").strip()
+    if task:
+        break
+    print("Error: Task cannot be empty.")
 
-# Process the Task Based on Priority using Match Case
+# Get priority with strict validation
+while True:
+    priority = input("Priority (high/medium/low): ").lower().strip()
+    if priority in {'high', 'medium', 'low'}:
+        break
+    print("Error: Priority must be 'high', 'medium', or 'low'.")
+
+# Get time-bound with strict validation
+while True:
+    time_bound = input("Is it time-bound? (yes/no): ").lower().strip()
+    if time_bound in {'yes', 'no'}:
+        break
+    print("Error: Must answer 'yes' or 'no'.")
+
+# Build reminder (match case)
 match priority:
     case "high":
-        message = f"Reminder: '{task}' is a high priority task"
+        reminder = f"URGENT: '{task}' (High Priority)"
     case "medium":
-        message = f"Reminder: '{task}' is a medium priority task"
+        reminder = f"REMINDER: '{task}' (Medium Priority)"
     case "low":
-        message = f"Note: '{task}' is a low priority task"
-    case _:
-        message = f"Note: '{task}' has an unknown priority level"
+        reminder = f"NOTE: '{task}' (Low Priority)"
 
-# Modify message if the task is time-bound
+# Add time sensitivity (if statement)
 if time_bound == "yes":
-    message += " that requires immediate attention today!"
-elif "Note" in message:
-    message += ". Consider completing it when you have free time."
+    reminder += " - REQUIRES IMMEDIATE ACTION TODAY!"
+else:
+    reminder += " - Complete when convenient."
 
-# Print the customized reminder
-print("\n" + message)
+# Print final reminder
+print("\n" + "="*50)
+print("TASK REMINDER:")
+print(reminder)
+print("="*50)
